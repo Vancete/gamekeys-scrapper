@@ -56,7 +56,7 @@ async function getGameInfo(game, index) {
         console.log('Enlace del juego buscado obtenido de CDKeys', firstElementInSearchList)
 
         /*
-          Obtiene los datos de las ofertashoago
+          Obtiene los datos de las ofertas
         */
         await page.goto(firstElementInSearchList)
 
@@ -86,7 +86,7 @@ async function getGameInfo(game, index) {
                 console.log('El texto se ha guardado correctamente en el archivo.')
             }
         })
-    } catch {
+    } catch (error) {
         console.error('Error:', error)
     } finally {
         await browser.close()
