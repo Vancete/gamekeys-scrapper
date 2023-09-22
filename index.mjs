@@ -56,19 +56,27 @@ async function getGameInfo(game, index) {
         console.log('Enlace del juego buscado obtenido de CDKeys', firstElementInSearchList)
 
         /*
-          Obtiene los links de las tiendas desde cdkeys
+          Obtiene los datos de las ofertashoago
         */
         await page.goto(firstElementInSearchList)
 
-        const linkElements = await page.$$eval('.offer__btn', (buttons) => {
-            return buttons.map((button) => {
-                return button.href
-            })
-        })
+        const offers = await page.$$('.offersToFilter');
+        const offersData = await Promise.all(offers.map(async (offer) => {
+            const priceElement = await offer.$('.offer__price');
+            const price = await priceElement.$eval('span', span => span.textContent);
+  
+            const linkElement = await offer.$('.offer__store');
+            const link = await linkElement.$eval('a', a => a.href);
+  
+            const nameElement = await offer.$('.offer__heading');
+            const name = await nameElement.$eval('h3', h3 => h3.textContent);
+            
+            return {price, link, name }
+        }));
 
-        gameData.links = linkElements
+        gameData.offers = offersData
 
-        console.log(`Obtenidos ${linkElements.length} enlaces de tiendas`)
+        console.log(`Obtenidos ${offersData.length} enlaces de tiendas`)
 
         const fileName = cleanFileName(gameName)
         fs.writeFile(`./data/${fileName}.json`, JSON.stringify(gameData), (error) => {
