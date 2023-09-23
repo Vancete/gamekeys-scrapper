@@ -10,7 +10,7 @@ const processGameList = async () => {
     }
 }
 
-async function getGameInfo(game, index) {
+const getGameInfo = async (game, index) => {
     let gameData = {}
     const browser = await pt.launch({ headless: 'new' })
     const page = await browser.newPage()
