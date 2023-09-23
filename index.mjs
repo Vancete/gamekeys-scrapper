@@ -4,6 +4,12 @@ import { cleanFileName, readGameListFile } from './utils/utils.mjs'
 
 const gameList = readGameListFile()
 
+const processGameList = async () => {
+    for (const [index, game] of gameList.entries()) {
+        await getGameInfo(game, index)
+    }
+}
+
 async function getGameInfo(game, index) {
     let gameData = {}
     const browser = await pt.launch({ headless: 'new' })
@@ -94,8 +100,4 @@ async function getGameInfo(game, index) {
     }
 }
 
-;(async () => {
-    for (const [index, game] of gameList.entries()) {
-        await getGameInfo(game, index)
-    }
-})()
+processGameList()
