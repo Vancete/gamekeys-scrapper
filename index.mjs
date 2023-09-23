@@ -1,6 +1,6 @@
 import fs from 'node:fs'
 import * as pt from 'puppeteer'
-import { timeout, cleanFileName, readGameListFile } from './utils/utils.mjs'
+import { cleanFileName, readGameListFile } from './utils/utils.mjs'
 
 const gameList = readGameListFile()
 
@@ -21,7 +21,7 @@ async function getGameInfo(game, index) {
         await page.type(searchSelector, game.toLowerCase())
         await page.focus(searchSelector)
         await page.keyboard.press('Enter')
-        await timeout(2000)
+        await page.waitForSelector('.results-container > div a')
         const firstElementInSearch = await page.$eval('.results-container > div a', (element) => element.href)
 
         console.log(`${index + 1}/${gameList.length}`)
@@ -49,8 +49,7 @@ async function getGameInfo(game, index) {
         const inputSelector = '.search-form__field'
         await page.$(inputSelector)
         await page.type(inputSelector, gameName.toLowerCase())
-        await timeout(2000)
-        await page.$('#searchList')
+        await page.waitForSelector('#searchList > :first-child a')
         const firstElementInSearchList = await page.$eval('#searchList > :first-child a', (element) => element.href)
 
         console.log('Enlace del juego buscado obtenido de CDKeys', firstElementInSearchList)
