@@ -60,26 +60,28 @@ async function getGameInfo(game, index) {
         */
         await page.goto(firstElementInSearchList)
 
-        const offers = await page.$$('.offersToFilter');
-        const offersData = await Promise.all(offers.map(async (offer) => {
-            const priceElement = await offer.$('.offer__price');
-            const price = await priceElement.$eval('span', span => span.textContent);
-  
-            const linkElement = await offer.$('.offer__store');
-            const link = await linkElement.$eval('a', a => a.href);
-  
-            const nameElement = await offer.$('.offer__heading');
-            const name = await nameElement.$eval('h3', h3 => h3.textContent);
-            
-            return {price, link, name }
-        }));
+        const offers = await page.$$('.offersToFilter')
+        const offersData = await Promise.all(
+            offers.map(async (offer) => {
+                const priceElement = await offer.$('.offer__price')
+                const price = await priceElement.$eval('span', (span) => span.textContent)
+
+                const linkElement = await offer.$('.offer__store')
+                const link = await linkElement.$eval('a', (a) => a.href)
+
+                const nameElement = await offer.$('.offer__heading')
+                const name = await nameElement.$eval('h3', (h3) => h3.textContent)
+
+                return { price, link, name }
+            })
+        )
 
         gameData.offers = offersData
 
         console.log(`Obtenidos ${offersData.length} enlaces de tiendas`)
 
         const fileName = cleanFileName(gameName)
-        fs.writeFile(`./data/${fileName}.json`, JSON.stringify(gameData), (error) => {
+        fs.writeFile(`./data/${fileName}.json`, JSON.stringify(gameData, 0, 4), (error) => {
             if (error) {
                 console.error('Error al guardar el archivo:', error)
             } else {
