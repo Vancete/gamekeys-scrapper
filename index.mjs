@@ -1,6 +1,6 @@
 import fs from 'node:fs'
 import * as pt from 'puppeteer'
-import { cleanFileName, readGameListFile } from './utils/utils.mjs'
+import { cleanFileName, readGameListFile, removeRef } from './utils/utils.mjs'
 
 const gameList = readGameListFile()
 
@@ -71,13 +71,15 @@ const getGameInfo = async (game, index) => {
                 const priceElement = await offer.$('.offer__price')
                 const price = await priceElement.$eval('span', (span) => span.textContent)
 
-                const linkElement = await offer.$('.offer__store')
-                const link = await linkElement.$eval('a', (a) => a.href)
-
                 const nameElement = await offer.$('.offer__heading')
                 const name = await nameElement.$eval('h3', (h3) => h3.textContent)
 
-                return { price, link, name }
+                const linkElement = await offer.$('.offer__store')
+                const link = await linkElement.$eval('a', (a) => a.href)
+
+                const linkFiltred = removeRef(link)
+
+                return { price, url: linkFiltred, name }
             })
         )
 

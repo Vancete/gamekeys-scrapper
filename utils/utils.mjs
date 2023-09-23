@@ -14,6 +14,24 @@ export const cleanFileName = (fileName) => {
     return cleanName
 }
 
+export const removeRef = (link) => {
+    const linkParts = link.split(/[?|#]/)
+    const [linkBase, linkParams] = linkParts
+
+    let linkFiltred = ''
+
+    if (linkParams) {
+        const refers = ['r=cdkeys-cheap', 'af_id=cdkeyscheap', 'a_aid=cdkeys-cheap']
+
+        linkFiltred = linkParams
+            .split('&')
+            .filter((link) => !refers.some((param) => link === param))
+            .join('&')
+    }
+
+    return linkBase + '?' + linkFiltred
+}
+
 export const readGameListFile = () => {
     const filePath = 'game-list.txt'
 
