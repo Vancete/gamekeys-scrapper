@@ -2,6 +2,7 @@ import fs from 'node:fs'
 import * as pt from 'puppeteer'
 import { cleanFileName, readGameListFile, removeRef } from './utils/utils.mjs'
 
+fs.mkdir('./data', (e) => {})
 const gameList = readGameListFile()
 
 const processGameList = async () => {
@@ -17,11 +18,11 @@ const getGameInfo = async (game, index) => {
     await page.setViewport({ width: 1000, height: 500 })
 
     try {
+        /*
+        Busca el juego extraido del game-list en el buscador de opencritic
+        */
         await page.goto('https://opencritic.com/search')
 
-        /*
-          Busca el juego extraido del game-list en el buscador de opencritic
-        */
         const searchSelector = 'input[name="searchStr"]'
         await page.$(searchSelector)
         await page.type(searchSelector, game.toLowerCase())
