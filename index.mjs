@@ -70,7 +70,7 @@ const getGameInfo = async (game, index) => {
         const offersData = await Promise.all(
             offers.map(async (offer) => {
                 const priceElement = await offer.$('.offer__price')
-                const price = await priceElement.$eval('span', (span) => span.textContent)
+                const price = await priceElement.$eval('span', (span) => parseFloat(span.textContent.replace('€', '')))
 
                 const nameElement = await offer.$('.offer__heading')
                 const name = await nameElement.$eval('h3', (h3) => h3.textContent)
