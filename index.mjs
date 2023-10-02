@@ -75,12 +75,19 @@ const getGameInfo = async (game, index) => {
                 const nameElement = await offer.$('.offer__heading')
                 const name = await nameElement.$eval('h3', (h3) => h3.textContent)
 
+                const platformElement = await offer.$('.offer__platform')
+                const platform = await platformElement.$eval('img', (img) => img.title)
+
+                const edition = await offer.$eval('.offer__edition', span => span.textContent)
+
+                const region = await offer.$eval('.offer__region', span => span.textContent)
+
                 const linkElement = await offer.$('.offer__store')
                 const link = await linkElement.$eval('a', (a) => a.href)
 
                 const linkFiltred = removeRef(link)
 
-                return { price, url: linkFiltred, name }
+                return { price, name, platform, edition, region, url: linkFiltred }
             })
         )
 
