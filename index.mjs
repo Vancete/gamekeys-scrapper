@@ -1,6 +1,6 @@
 import fs from 'node:fs'
 import * as pt from 'puppeteer'
-import { cleanFileName, readGameListFile, removeRef } from './utils/utils.mjs'
+import { cleanFileName, readGameListFile, removeRef, createSearchData } from './utils/utils.mjs'
 
 fs.mkdir('./data', (e) => {})
 const gameList = readGameListFile()
@@ -9,6 +9,9 @@ const processGameList = async () => {
     for (const [index, game] of gameList.entries()) {
         await getGameInfo(game, index)
     }
+
+    const searchData = await createSearchData()
+    console.log(searchData)
 }
 
 const getGameInfo = async (game, index) => {
@@ -116,6 +119,7 @@ const getGameInfo = async (game, index) => {
         console.error('Error:', error)
     } finally {
         await browser.close()
+        
     }
 }
 

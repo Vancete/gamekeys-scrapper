@@ -1,4 +1,5 @@
 import fs from 'node:fs'
+import path from 'node:path'
 
 export const timeout = (ms) => {
     return new Promise((resolve) => setTimeout(resolve, ms))
@@ -47,4 +48,39 @@ export const readGameListFile = () => {
     }
 
     return []
+}
+
+export const createSearchData = async () => {
+    const folder = './data'
+
+    try {
+        const files = await fs.promises.readdir(folder)
+        const fileData = []
+
+        for (const fileName of files) {
+            if (path.extname(fileName) === '.json') {
+                const file = path.join(folder, fileName);
+                try {
+                    const gameData = await fs.promises.readFile(file, 'utf-8');
+                    const { data, offers } = JSON.parse(gameData);
+                    const bestOffer = offers.reduce((betterOffer, currentOffer) => {
+                        return currentOffer.price < betterOffer.price ? currentOffer : betterOffer;
+                    });
+                    const { name, image } = data;
+                    const newData = {
+                        name,
+                        image,
+                        offer: bestOffer
+                    };
+                    fileData.push(newData);
+                } catch (error) {
+                    console.error(`Error al procesar el archivo ${archivo}: ${error}`);
+                }
+            }
+        }
+        return fileData;
+    } catch (err) {
+        console.error(`Error al leer la carpeta ${folder}: ${err}`);
+        return [];
+    }
 }
