@@ -2,7 +2,7 @@ import fs from 'node:fs'
 import * as pt from 'puppeteer'
 import { cleanFileName, readGameListFile, removeRef, createSearchData } from './utils/utils.mjs'
 
-fs.mkdir('./data', (e) => {})
+fs.mkdir('./data/search', (e) => {})
 const gameList = readGameListFile()
 
 const processGameList = async () => {
@@ -11,7 +11,13 @@ const processGameList = async () => {
     }
 
     const searchData = await createSearchData()
-    console.log(searchData)
+    fs.writeFile('./data/search/search-data.json', JSON.stringify(searchData, 0, 4), (error) => {
+        if (error) {
+            console.error('Error al guardar el archivo:', error)
+        } else {
+            console.log('El texto se ha guardado correctamente en el archivo search-data')
+        }
+    })
 }
 
 const getGameInfo = async (game, index) => {
@@ -112,7 +118,7 @@ const getGameInfo = async (game, index) => {
             if (error) {
                 console.error('Error al guardar el archivo:', error)
             } else {
-                console.log('El texto se ha guardado correctamente en el archivo.')
+                console.log(`El texto se ha guardado correctamente en el archivo ${fileName}.`)
             }
         })
     } catch (error) {

@@ -67,10 +67,11 @@ export const createSearchData = async () => {
                         return currentOffer.price < betterOffer.price ? currentOffer : betterOffer;
                     });
                     const { name, image } = data;
+                    const {price} = bestOffer
                     const newData = {
                         name,
                         image,
-                        offer: bestOffer
+                        price
                     };
                     fileData.push(newData);
                 } catch (error) {

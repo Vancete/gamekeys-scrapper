@@ -1,0 +1,32 @@
+[
+    {
+        "name": "Cocoon",
+        "image": "https://img.opencritic.com/game/15580/o/Q9RNpuAL.jpg",
+        "price": 13.7
+    },
+    {
+        "name": "Elden Ring",
+        "image": "https://img.opencritic.com/game/12090/o/5BXKr5S1.jpg",
+        "price": 29.31
+    },
+    {
+        "name": "League of Legends",
+        "image": "https://img.opencritic.com/game/9751/o/CtKWhFtW.jpg",
+        "price": 31.51
+    },
+    {
+        "name": "Lies of P",
+        "image": "https://img.opencritic.com/game/15437/o/DeyLC1r5.jpg",
+        "price": 39.69
+    },
+    {
+        "name": "Sifu",
+        "image": "https://img.opencritic.com/game/12705/o/bzegH6kE.jpg",
+        "price": 14.4
+    },
+    {
+        "name": "Starfield",
+        "image": "https://img.opencritic.com/game/14907/o/cczxz8Dx.jpg",
+        "price": 50.68
+    }
+]
